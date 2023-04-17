@@ -12,7 +12,7 @@ const translate = async (req, res) => {
 const findHistory = (word, session) => {
   let history = []
   const now = new Date();
-  const date = now.getDate() + '/0' + now.getMonth() + '/' + now.getFullYear();
+  const date = now.getFullYear() + '/0' + (now.getMonth() +1) + '/' + now.getDate() + '-' +now.getHours()+'시';
   const historyFind = { word, date };
   if (session.history) {
     history = [...session.history];
