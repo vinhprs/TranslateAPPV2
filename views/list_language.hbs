@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>언어 추가/삭제</title>
+    <link rel="stylesheet" href="/css/list_language.css">
+    <link rel="icon" href="http://mail.seoultech.ac.kr/mail/img/favicon.png">
+</head>
+<body>
+</body>
+    <a href="/all-list">
+        <button class="btn-back"><<< 사전 목록</button>
+    </a>
+    <form action="/create-langue-action" method="POST" class="form-add-langue">
+        <h1>
+            언어 페이지
+        </h1>
+        <input type="text" name="name" placeholder="언어 이름">
+        <input type="text" name="description" placeholder="설명">
+        <input type="submit" value="언어 추가" style="width:100%; cursor:pointer">
+    </form>
+
+    <!-- list langue view -->
+    <div class="list-langue">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>언어 이름</th>
+                    <th>설명</th>
+                    <th>수정/삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each languages}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.description}}</td>
+                    <td>
+                        <a href="/deleteLanguage/{{this._id}}">삭제</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</html>

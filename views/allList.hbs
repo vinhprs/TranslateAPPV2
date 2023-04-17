@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 관리 사전</title>
+    <link rel="icon" href="http://mail.seoultech.ac.kr/mail/img/favicon.png">
+    <link rel="stylesheet" href="css/allList.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/c71231073e.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1 style="text-align: center; margin-top: 10px;">언어 관리 페이지</h1>
+    <div class="noti">
+    {{#each noti}}
+    <div class="alert alert-success message" role="alert">
+        One user voted {{this.vote}} <a href="/view-vote/{{this.id}}" class="alert-link">See more</a>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-id="{{@index}}">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{/each}}
+    </div>
+  
+    <div class="container">
+        <div class="header-search">
+            <form action="/all-list" class="search-form" method="GET">
+                <input type="text" name="keyword" placeholder="검색어를 입력하세요" value="{{keyword}}">
+                <button class="btn">검색</button>
+                <a href="/create"><button class="btn" type="button">단어/어휘 추가</button></a>
+                <a href="/create-langue"><button class="btn" type="button">다른 국가 언어를 추가</button></a>
+                <a href="/logout"><button class="btn" style="float: right; background-color: red" type="button">로그아웃</button></a>
+            </form>
+        </div>
+        <div class="content">
+            <div class="nav-slider">
+                <ul>
+                    {{#each data}}
+                        <li ><a href="#" onclick="find_world('{{this}}')">{{this}}</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="main-content">
+                <div class="main-header">  
+                    <a href="#">
+                        <button class="btn-type active">모두<button>
+                    </a>             
+                    {{#each languages}}
+                        <a href="#">
+                            <button class="btn-type">한국 - {{this.name}}<button>
+                        </a>
+                    {{/each}}
+                </div>
+                <b style="color: red; font-size: 19px;" id="id_tv">어휘 관리</b>
+                <ul class="list-diction"  id="list-diction">
+                </ul>
+            </div>
+        </div>
+    </div>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    let data;
+    let language = '0';
+    let last_word = "";
+    let list_language = [
+        '0',
+        {{#each languages}}
+            "{{this._id}}",
+        {{/each}}
+    ];
+    function change_language(number){
+        language = number;
+    }
+    var btn = document.getElementsByClassName('btn-type')
+    // foreach btn
+    for (let i = 0; i < btn.length ; i++){
+        // btn add Event Listener
+        btn[i].addEventListener('click', function(){
+            // remove class active
+            for (let j = 0; j < btn.length; j++){
+                btn[j].classList.remove('active');
+            }
+            // add class active
+            this.classList.add('active');
+            change_language(list_language[i]);
+
+            if (last_word != ""){
+                find_world(last_word);
+            }
+        })
+    }
+    function find_world(world){
+        document.getElementById("id_tv").innerHTML = `사전: ${world}`;
+        last_word = world;
+        $.ajax({
+            type: "GET",
+            url: "/find",
+            dataType: "json",
+            data: {
+                type: 1,
+                word: world,
+                language: language
+            },
+            success: function(response){
+                let root = document.getElementById("list-diction");
+                data = response
+                if (response.length == 0){
+                    root.innerHTML = '빈 사전 ?';
+                }else{
+                    root.innerHTML = '';
+                    for (let i = 0 ; i < response.length ; i++){
+                        if (response[i].description == null){
+                            response[i].description = "북"
+                        }
+                        root.innerHTML += `
+                            <li id="${response[i].id_trans}">
+                                <b>번역하다: ${response[i].foreign_languages}</b> 
+                                <br>
+                                <span>- 설명하다: ${response[i].description}</span>
+                                <br>
+                                <p><i class="fa-regular fa-star"></i> 평가하다: ${ response[i].vote_up } <i class="fa-regular fa-thumbs-up"></i> | ${ response[i].vote_down } <i class="fa-regular fa-thumbs-down"></i> | <a href="/view-vote/${ response[i]._id }">리뷰 보기 <i class="fa-solid fa-magnifying-glass"></i></a></p>
+                            </li>
+                        `;
+                    }
+                }
+            }
+        })
+    }
+    function delete_action(id_trans){
+        $.ajax({
+            type: "POST",
+            url: "/delete",
+            dataType: "json",
+            data: {
+                id: id_trans
+            },
+            success: function(response){
+                if (response.status == true){
+                    document.getElementById(response.id_trans).remove();
+                    if (response.tv_delete == true){
+                        document.getElementById(response.id_tv).remove();
+                    }
+                }
+            }
+        })
+    }
+
+    // close notification
+    $('.close').click(function() {
+    var voteId = $(this).data('id');
+    $.ajax({
+        url: '/deleteNoti/' + voteId,
+        type: 'DELETE',
+        success: function(result) {
+            console.log(result);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+});
+</script>
+</html>
