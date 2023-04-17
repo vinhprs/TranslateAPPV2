@@ -44,7 +44,8 @@ const addTranslated = async (word, languageId, target) => {
     }
     const TranslateText = await Translate.findOne({ korea: word_trim, foreign_languages: translated_trim, language: languageId });
     
-    if (!TranslateText) {
+    if(word_trim !== translated_trim) {
+      if (!TranslateText) {
         const newTranslate = new Translate({
             korea: word_trim,
             foreign_languages: translated_trim,
@@ -56,6 +57,8 @@ const addTranslated = async (word, languageId, target) => {
             await newTranslate.save();
         } catch (error) {}
     }
+    }
+ 
 }
 
 module.exports.addTranslated = addTranslated;
