@@ -7,6 +7,8 @@ box-sizing: border-box;
 font-family: 'Poppins', sans-serif;
 
 }
+
+  
 body:not(input){
 display: flex;
 align-items: center;
@@ -14,18 +16,42 @@ justify-content: center;
 min-height: 100vh;
 padding: 0 10px;
 background: #675AFE;
+/* background-image: url('https://th.bing.com/th/id/R.2a2acfdb4f0717725c2bdec4529e9625?rik=n4jL6pivzFc%2fYA&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fwp1915133.jpg&ehk=%2b6kul4rL1wgHr6UtY04UhB4OIXhwcXtGQAzuSaYjG1Q%3d&risl=&pid=ImgRaw&r=0');
+  background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover; */
+  
+  /* background-image: url('https://wallpapercave.com/wp/wp6361971.jpg'), url('https://wallpapercave.com/wp/wp6361971.jpg');
+  background-size: cover;
+  animation: slide 200s ease infinite;
+  
+  width: 100%; */
 }
+@keyframes slide {
+  0% {
+    background-position: 0% 0%, 100% 100%;
+  }
+  50% {
+    background-position: 100% 100%, 0% 0%;
+  }
+  100% {
+    background-position: 0% 0%, 100% 100%;
+  }
+}
+
 ::selection{
 color: #fff;
 background: #675AFE;
 }
 .wrapper{
 width: 50%;
-min-width: 370px;
+min-width: 500px;
+max-width: 700px;
 padding: 30px;
 border-radius: 7px;
 background: #fff;
 box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.05);
+opacity: 90%;
 }
 .wrapper header{
 font-size: 28px;
@@ -124,14 +150,26 @@ background: #4534fe;
     padding-left: 10px;
     margin-bottom: 10px;
 }
+.button-link :active{
+  color: #00DBDE;
+}
 
 .button-link{
   text-decoration: none;
-  color: #fff;
-  background: #675AFE;
+  padding: 5px;
+  color: #f3f3f2;
+  font-weight: 900;
+  /* background-color: rgb(171, 112, 112); */
+  background-color: transparent;
+  opacity: 90%;
+  
   padding: 10px 20px;
   border-radius: 5px;
-  transition: 0.3s ease;
+  letter-spacing: 2px;
+  border:2px solid #f0c0c0;
+  border-radius: 5px;
+    
+  font-family: 'Montserrat', sans-serif;
 }
 .ketqua{
   display: inline-block;
@@ -141,57 +179,105 @@ background: #4534fe;
   margin-top: 10px;margin-left: 45%;
   padding: 5px;
 }
+
+
+
 .button-change-page{
   display: inline-block;
   position: fixed;
   top : 10px;
   right: 10px;
   padding: 5px;
-  border:2px solid #fff;
-  
   
 }
+
 .table-container{
-  
+  display: block;
   text-align: center;
-    width: 100%;
-    margin: 15px auto;
+  padding: 5px 5px;
+    width: 98%;
+    margin: 1px auto;
+    background-color: rgb(241, 243, 243);
+  border: 1px solid #675AFE ;
+  border-radius: 20px;
+  
+  font-family: 'Montserrat', sans-serif;
+  }
+  .fa-regular.fa-star.active {
+    color: #f5b5b5;
+    
+    position: relative;
+    margin-bottom: 2px;
   }
   
   
-  
-  td,tr {
-    padding: 8px;
+  .table{
+    display: block;
+    min-width: 188px;
+  }
+  td{
+    padding: 2px;
     text-align: left;
     border-bottom: 1px solid #ddd;
     font-size: 12px;
+    margin: auto;
     
-  
   }
  
   tbody tr:hover {
-    background-color: #f5f5f5;
+    
+    border: 1px solid red;
+    color: #d14f4f;
 }
-
 tbody {
-  min-width: 200px;
+  min-width: 188px;
   display: inline-block;
+  margin-left: 4px;
 }
-  
-thead tr{
-  text-align: center;
-  margin-left: 10px;
-  border: 1px solid red;
-  
  
-}
 .sidebar{
   display: block;
   height: 500px;
-  min-width: 182px;
+  min-width: 203px;
   width: 15%;
   background-color: #fff;
   border-radius: 10px;
   position: relative;
-  right: 2px;
+  right: 3px;
+  opacity: 90%;
+}
+hr{
+  display: block;
+  width: 50%;
+  height: 3px;
+  color: yellow;
+  margin: 0 auto;
+  
+
+}
+.fa-star {
+  color: black;
+}
+
+.fa-star.clicked {
+  color:#675AFE;
+background-clip: content-box;}
+  
+
+
+em{color: transparent;
+  background-color: #00DBDE;
+  background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+
+  -webkit-background-clip: text;
+  display: block;
+  text-align: center;
+  
+    
+  }
+
+header{
+  letter-spacing: 2px;
+    margin: 18px 0;
+    font-family: 'Montserrat', sans-serif;
 }

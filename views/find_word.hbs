@@ -2,38 +2,39 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>사전 검색</title>
+    <title>2 HELLO</title>
     <link rel="icon" href="http://mail.seoultech.ac.kr/mail/img/favicon.png">
-    <link rel="stylesheet" href="style.css">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- FontAweome CDN Link for Icons -->
     <script src="https://kit.fontawesome.com/c71231073e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/findWord.css">
   </head>
   <body>
+    
     <div class="sidebar">
         <div class="table-container">
             <table>
-              <thead>
-                
-                  <tr>최근에 찾던 단어</tr>
-                  
-                
+              <thead> 
+                  <tr> 최근에 찾던 단어</tr>
+                  <hr >
               </thead>
               <tbody>
                 {{#each history}}
                 <tr>
                   <td>{{this.word}}</td>
-                  <td>{{this.date}}</td>
+                  <td>{{this.date}} </td>
+                  <td><i class="fa-regular fa-star"></i></td>
                 {{/each}}  
                 </tr>
+                
               </tbody>
             </table>
           </div>
           
     </div>
     <div class="wrapper">
-      <header>사전</header>
+      <header>한국어  <i class="fa-solid fa-right-left"></i>  베트남어</header>
       <form action="#" id="form_submit">
         <div class="amount">
           <p>검색어를 입력하세요</p>
@@ -69,17 +70,35 @@
             
         </ul>
         <button>검색</button>
+        
       </form>
+      <em>
+        Copyright 2023 by SeoulTech 시운 -컴퓨터 공학과</em>
     </div>
 
     <div class="button-change-page">
         <a class="button-link" href="/login">관리자</a>
-        {{!-- <a class="button-link" href="/list-word">사전 목록</a> --}}
+        
+        
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
+  // Lấy tất cả các phần tử có lớp "fa-regular fa-star"
+const starIcons = document.querySelectorAll('.fa-regular.fa-star');
+
+// Lặp qua tất cả các phần tử và thêm sự kiện click
+starIcons.forEach(starIcon => {
+  starIcon.addEventListener('click', () => {
+    // Xóa lớp "active" khỏi tất cả các phần tử khác
+    starIcons.forEach(icon => icon.classList.remove('active'));
+    
+    // Thêm lớp "active" cho phần tử đang được click
+    starIcon.classList.add('active');
+  });
+});
+
     let language = document.getElementById('list-language').value;
     let root_langue = document.getElementsByClassName("exchange-rate")[0];
     function change_langue(){
